@@ -26,9 +26,11 @@
       $('#tree').fancytree({
         extensions: ['contextMenu'],
         source: {
-          url: '/playlists',
+          url: '/playlists/hierarchy',
           cache: false
         },
+        tooltip: true,
+
         contextMenu: {
           menu: {
             'edit': { 'name': 'Edit', 'icon': 'edit' },
@@ -71,12 +73,13 @@
     });
   </script>
 
+<link href="style.css" rel="stylesheet">
+
 </head>
 
 <body class="container">
-  <h1 class="text-salmon">Spotify Implicit Grant Template</h1>
-  <h3>This app uses the implicit grant authorization flow to authenticate users and get user data.</h3>
-  <div id="tree"></div>
+  <h1 class="text-salmon">Spotify Playlist Editor</h1>
+  <div id="tree" style="max-height:290px;overflow:auto;"></div>
 </body>
 
 </html>

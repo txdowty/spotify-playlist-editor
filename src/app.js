@@ -4,7 +4,6 @@ var path = require('path');
 const app = express();
 
 // routes
-// const authorsRoutes = require('./api/routes/authors')
 const playlistsRoutes = require('./api/routes/playlists');
 // module.exports = app;app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());

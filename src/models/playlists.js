@@ -17,8 +17,9 @@ async function getPlaylists() {
         res = await fetchGroupFromServer(playlists.size);
         playlists.append(res.body.items)
     }
-    console.log(playlists.names());
-    return playlists;
+    // console.log(playlists.names());
+    // console.log(JSON.stringify(playlists));
+    return playlists._playlists;
 };
 
 async function playlistNames() {

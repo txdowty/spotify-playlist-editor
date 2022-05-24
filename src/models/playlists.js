@@ -17,8 +17,6 @@ async function getPlaylists() {
         res = await fetchGroupFromServer(playlists.size);
         playlists.append(res.body.items)
     }
-    // console.log(playlists.names());
-    // console.log(JSON.stringify(playlists));
     return playlists._playlists;
 };
 
@@ -34,17 +32,20 @@ async function playlistNames() {
             });
             return playlists.sort((a, b) => a.title.localeCompare(b.title));
         }),
-        // .then(function (data) {
-        //     // res.contentType('application/json');
-        //     // res.send(JSON.stringify(data))
-        // },
         function (err) {
             console.log('Something went wrong:', err.message);
         }
 };
 
+async function getPlaylist(id) {
+    // const spotifyApi =  spotifyWebApi.getApi();
+    return spotifyWebApi.getPlaylist(id);
+}
 
 
-module.exports = { getPlaylists, getPlaylists, playlistNames: playlistNames };
+module.exports = {
+    getPlaylists, getPlaylists,
+    playlistNames: playlistNames,
+    getPlaylist: getPlaylist };
 
 // getPlaylists();

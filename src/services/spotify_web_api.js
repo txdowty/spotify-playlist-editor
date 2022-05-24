@@ -5,7 +5,7 @@ var AuthenticationRequest = require('./authentication-request'),
   HttpManager = require('./http-manager');
 
 // var SpotifyWebApi = require('spotify-web-api-node');
-const access_token = 'BQABZW7SlPv47QyG3i99TtiZXukPZ5tu3J433_hrzj5OeM5knng_m78jptqvfAecWeIgpj91lHWgahohmEVxOcITrKXnllw05CbXQHo1QLy2xJctpjWoutkK2TkDzfZbQdXa0kiOpwy-xiCZ2cWtcjnTeuHrh1y4M1z4HF3UML6UIMxpmo1qNp5_h7oErRhZlGob4ts0d1b2J2_LY-_RIdtnFcVDVGtjl-Q-HL4IXieztXuFEzOiOZu3NJqb8xyrkIONIVFHrZ-YDWEZ4wMawt4ERLQ'
+const access_token = 'BQBVyK8ALhxNG3pnrh39U-tvs5cnFjA2g9nlNjCPCg7315CB2hTVemdWIw1VWtO38LTEeDg4FhErtmrIRKWQAT5u-8AflxBliptQGXGV9nhNkJeVrTirdWRARAk5dpWXTexOK_pfU7WO21IB_zZ8qy6bXtUyl-TEg40Hb9BvlJ1DwjawOJIEHFfXO4pY-aSqPNBzam1wj5cyo3eqTlZQoYwjlC3nM4-kXumLWQHdwtBDin7OM1p196vgT-hyODYrYuoVly1vMDjB8-XDMkMJU-mQGpg'
 
 let spotifyApi = null;
 // function getApi() {
@@ -54,5 +54,25 @@ function getUserPlaylists(userId, options, callback) {
         .execute(HttpManager.get, callback);
 };
 
+/**
+   * Get a playlist.
+   * @param {string} playlistId The playlist's ID.
+   * @param {Object} [options] The options supplied to this request.
+   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
+   * @example getPlaylist('3EsfV6XzCHU8SPNdbnFogK').then(...)
+   * @returns {Promise|undefined} A promise that if successful, resolves to an object containing
+   *          the playlist. If rejected, it contains an error object. Not returned if a callback is given.
+   */
+function getPlaylist(playlistId, options, callback) {
+    return WebApiRequest.builder(access_token)
+      .withPath('/v1/playlists/' + playlistId)
+      .withQueryParameters(options)
+      .build()
+      .execute(HttpManager.get, callback);
+};
 
-module.exports = { /*getApi: getApi,*/ getUserPlaylists: getUserPlaylists };
+
+module.exports = {
+    getUserPlaylists: getUserPlaylists,
+    getPlaylist: getPlaylist
+};

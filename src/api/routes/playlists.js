@@ -1,8 +1,8 @@
 const express = require('express');
-const playlists = require('../../models/playlists')
+// const playlists = require('../../models/playlists')
 const asyncify = require('express-asyncify')
 
-const spotifyWebApi = require('../../services/spotify_web_api.js');
+// const spotifyWebApi = require('../../services/spotify_web_api.js');
 const model = require('../../models/playlists.js')
 const formatter = require('../../models/fancytree_formatter.js')
 
@@ -38,7 +38,7 @@ router.get('/titles-sorted', async (req, res, next) => {
   res.contentType('application/json');
   res.send(JSON.stringify(formatter.titlesSorted(playlists)));
 
-    // return JSON.stringify(formatter.titlesSorted(playlists));
+  // return JSON.stringify(formatter.titlesSorted(playlists));
   // const spotifyApi = spotifyWebApi.getApi();
   // spotifyApi.getUserPlaylists()
   // .then(function (data) {
@@ -67,14 +67,9 @@ router.get('/hierarchy', async (req, res, next) => {
   res.send(JSON.stringify(titles_hierarchy));
 });
 
-
-// /**
-//  * GET request to /books/:id
-//  */
-// router.get('/:id', (req, res, next) => {
-//     res.status(200).json({
-//         message: 'Book with id was fetch'
-//     });
-// });
+router.get('/:url', (req, res, next) => {
+  res.redirect(req.params.url);
+  res.end();
+});
 
 module.exports = router;

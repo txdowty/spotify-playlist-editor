@@ -4,6 +4,7 @@ var path = require('path');
 const app = express();
 
 // routes
+const authRoutes = require('./api/routes/auth');
 const playlistsRoutes = require('./api/routes/playlists');
 // module.exports = app;app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
@@ -26,6 +27,8 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '/views/index.html'));
 });
 
+app.use('/auth', authRoutes);
 app.use('/playlists', playlistsRoutes);
 
 module.exports = app;
+

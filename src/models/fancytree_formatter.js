@@ -1,22 +1,21 @@
 'use strict';
 
-const { append } = require('express/lib/response');
-const playlists_class = require('./playlists_class.js');
+// const { append } = require('express/lib/response');
+// const playlists_class = require('./playlists_class.js');
 
 function titlesSorted(playlists) {
     return playlists.map(function (item) {
-        return {title: item.name};
+        return { title: item.name };
     })
 }
 
 function titlesHierarchy(playlists) {
 
-    const _map = new Object();
-    
-    function append(playlists) {
-        return playlists.reduce((map, obj) => {
+    function createHierarchicalMap(playlists) {
+        const map = new Object();
+        playlists.reduce((_map, obj) => {
             var segments = obj.name.split('/');
-            var parent = _map;
+            var parent = map;
             for (let i = 0; i < segments.length - 1; i++) {
                 const segment_name = segments[i]
                 if (!parent[segment_name]) {
@@ -26,18 +25,24 @@ function titlesHierarchy(playlists) {
             }
             parent[segments.pop()] = obj;
         }, {});
+        return map;
     }
-
 
     function format(input_parent_item, level = 0) {
         const child_nodes = [];
         for (var key in input_parent_item) {
             const value = input_parent_item[key];
             if (value.href) {
-                // leaf playlist
-                child_nodes.push({ title: key, tooltip: value.description, playlist: value });
+                // Create a leaf playlist
+                // const boldTitle = '<b>' + key + '</b>';
+                let encoded_url = encodeURIComponent(value.external_urls.spotify);
+                const boldTitle = `<a target="_blank" rel="noopener noreferrer" href="/playlists/${encoded_url}">${key}</a>`;
+                // const boldTitle = key;
+                child_nodes.push({ title: boldTitle, tooltip: value.description, playlist: value });
+                // child_nodes.push({ title: key, tooltip: value.description, playlist: value });
             }
             else {
+                // Create a folder
                 const this_node = { title: key, folder: true, children: [] };
                 level += 1;
                 let nodes_array = format(value, level);
@@ -50,9 +55,9 @@ function titlesHierarchy(playlists) {
         }
         return child_nodes;
     }
-    const hierarchy = append(playlists);
-    const output = format(_map);
-    return output;
+
+    const hierarchy = createHierarchicalMap(playlists);
+    return format(hierarchy);
 }
 
 module.exports = {

@@ -9,24 +9,25 @@ function titlesSorted(playlists) {
     })
 }
 
-function titlesHierarchy(playlists) {
-
-    function createHierarchicalMap(playlists) {
-        const map = new Object();
-        playlists.reduce((_map, obj) => {
-            var segments = obj.name.split('/');
-            var parent = map;
-            for (let i = 0; i < segments.length - 1; i++) {
-                const segment_name = segments[i]
-                if (!parent[segment_name]) {
-                    parent[segment_name] = new Object();
-                }
-                parent = parent[segment_name];
+function _createHierarchicalMap(playlists) {
+    const map = new Object();
+    playlists.reduce((_map, obj) => {
+        var segments = obj.name.split('/');
+        var parent = map;
+        for (let i = 0; i < segments.length - 1; i++) {
+            const segment_name = segments[i]
+            if (!parent[segment_name]) {
+                parent[segment_name] = new Object();
             }
-            parent[segments.pop()] = obj;
-        }, {});
-        return map;
-    }
+            parent = parent[segment_name];
+        }
+        parent[segments.pop()] = obj;
+    }, {});
+    return map;
+}
+
+
+function titlesHierarchy(playlists) {
 
     function format(input_parent_item, level = 0) {
         const child_nodes = [];
@@ -34,18 +35,17 @@ function titlesHierarchy(playlists) {
             const value = input_parent_item[key];
             if (value.href) {
                 // Create a leaf playlist
-                // const boldTitle = '<b>' + key + '</b>';
                 let encoded_url = encodeURIComponent(value.external_urls.spotify);
-                const boldTitle = `<a target="_blank" rel="noopener noreferrer" href="/playlists/${encoded_url}">${key}</a>`;
-                // const boldTitle = key;
-                child_nodes.push({ title: boldTitle, tooltip: value.description, playlist: value });
-                // child_nodes.push({ title: key, tooltip: value.description, playlist: value });
+                const title_link = `<a target="_blank" rel="noopener noreferrer" href="/playlists/${encoded_url}">${key}</a>`;
+                let tooltip = value.description || key;
+                child_nodes.push({ title: title_link, tooltip: tooltip , playlist: value });
             }
             else {
                 // Create a folder
                 const this_node = { title: key, folder: true, children: [] };
                 level += 1;
-                let nodes_array = format(value, level);
+                // Get child nodes recursively
+                let nodes_array = format(value, level).sort((a, b) => a.title.localeCompare(b.title));
                 this_node.children.push(...nodes_array);
                 if (level == 0) {
                     return this_node;
@@ -56,11 +56,12 @@ function titlesHierarchy(playlists) {
         return child_nodes;
     }
 
-    const hierarchy = createHierarchicalMap(playlists);
-    return format(hierarchy);
-}
+    let hierarchy = _createHierarchicalMap(playlists);
+    return format(hierarchy).sort((a, b) => a.title.localeCompare(b.title));;
+};
 
 module.exports = {
     titlesSorted: titlesSorted,
-    titlesHierarchy, titlesHierarchy
+    titlesHierarchy, titlesHierarchy,
+    _createHierarchicalMap: _createHierarchicalMap
 };

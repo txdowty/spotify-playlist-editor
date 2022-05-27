@@ -1,12 +1,30 @@
 'use strict';
 
-// const { append } = require('express/lib/response');
-// const playlists_class = require('./playlists_class.js');
-
 function titlesSorted(playlists) {
     return playlists.map(function (item) {
         return { title: item.name };
     })
+}
+
+function _getFormattedTitle(title, playlist_obj) {
+    if (!playlist_obj.external_urls || !playlist_obj.external_urls.spotify) {
+        return title;
+    }
+    let track_count;
+    if (playlist_obj.tracks && playlist_obj.tracks.total) {
+        track_count = playlist_obj.tracks.total;
+    }
+    let encoded_url = encodeURIComponent(playlist_obj.external_urls.spotify);
+    return `<a target="_blank" rel="noopener noreferrer" href="/playlists/${encoded_url}">${title}</a> <i>(${track_count})</i>`;
+}
+
+function _getTooltip(title, playlist_obj) {
+    return playlist_obj.description || title;
+}
+
+function _sortArray(array, property_name) {
+    array.sort((a, b) => (a[property_name] > b[property_name]) ? 1 : -1);
+    return array;
 }
 
 function _createHierarchicalMap(playlists) {
@@ -26,26 +44,22 @@ function _createHierarchicalMap(playlists) {
     return map;
 }
 
-
-function titlesHierarchy(playlists) {
-
+function displayFormatFromRawPlaylists(playlists, doSort = true) {
     function format(input_parent_item, level = 0) {
         const child_nodes = [];
         for (var key in input_parent_item) {
             const value = input_parent_item[key];
-            if (value.href) {
-                // Create a leaf playlist
-                let encoded_url = encodeURIComponent(value.external_urls.spotify);
-                const title_link = `<a target="_blank" rel="noopener noreferrer" href="/playlists/${encoded_url}">${key}</a>`;
-                let tooltip = value.description || key;
-                child_nodes.push({ title: title_link, tooltip: tooltip , playlist: value });
+            if (value.external_urls) {
+                let title = _getFormattedTitle(key, value);
+                let tooltip = _getTooltip(key, value);
+                child_nodes.push({ title: title, tooltip: tooltip, sortable_title: key, playlist: value });
             }
             else {
                 // Create a folder
-                const this_node = { title: key, folder: true, children: [] };
+                const this_node = { title: key, sortable_title: key, folder: true, children: [] };
                 level += 1;
                 // Get child nodes recursively
-                let nodes_array = format(value, level).sort((a, b) => a.title.localeCompare(b.title));
+                let nodes_array = format(value, level);
                 this_node.children.push(...nodes_array);
                 if (level == 0) {
                     return this_node;
@@ -53,15 +67,26 @@ function titlesHierarchy(playlists) {
                 child_nodes.push(this_node);
             }
         }
+        if (doSort) {
+            _sortArray(child_nodes, 'sortable_title');
+        }
         return child_nodes;
     }
 
     let hierarchy = _createHierarchicalMap(playlists);
-    return format(hierarchy).sort((a, b) => a.title.localeCompare(b.title));;
+    let displayArray =  format(hierarchy);
+    if (doSort) {
+        _sortArray(displayArray, 'sortable_title');
+    }
+    return displayArray;
+    // return x.sort((a,b) => (a.sortable_title > b.sortable_title) ? 1 : ((b.sortable_title > a.sortable_title) ? -1 : 0));
 };
+
 
 module.exports = {
     titlesSorted: titlesSorted,
-    titlesHierarchy, titlesHierarchy,
-    _createHierarchicalMap: _createHierarchicalMap
+    // formatPlaylists: formatPlaylists,
+    // private but testable
+    _createHierarchicalMap: _createHierarchicalMap,
+    displayFormatFromRawPlaylists, displayFormatFromRawPlaylists
 };

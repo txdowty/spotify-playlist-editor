@@ -62,7 +62,7 @@ router.get('/titles-sorted', async (req, res, next) => {
 
 router.get('/hierarchy', async (req, res, next) => {
   let playlists = await model.getPlaylists();
-  titles_hierarchy = formatter.titlesHierarchy(playlists);
+  titles_hierarchy = formatter.displayFormatFromRawPlaylists(playlists);
   res.contentType('application/json');
   res.send(JSON.stringify(titles_hierarchy));
 });

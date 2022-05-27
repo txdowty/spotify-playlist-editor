@@ -3,12 +3,12 @@ var formatter = require("../src/models/fancytree_formatter.js");
 
 const data1 = [
     {
-        'name': 'a/b/c',
+        'name': 'z',
         "external_urls": {
             "spotify": "https://open.spotify.com/playlist/1"
         }
     },
-    { 'name': 'a/d/e', 
+    { 'name': 'a', 
         "external_urls": {
             "spotify": "https://open.spotify.com/playlist/2"
         }
@@ -17,24 +17,18 @@ const data1 = [
 const data1HierarchyExpected =
 {
     "a": {
-        "b": {
-            "c": {
-                "name": "a/b/c",
-                "external_urls": {
-                    "spotify": "https://open.spotify.com/playlist/1"
-                }
-            }
-        },
-        "d": {
-            "e": {
-                "name": "a/d/e",
-                "external_urls": {
-                    "spotify": "https://open.spotify.com/playlist/2"
-                }
-            }
+        "name": "a",
+        "external_urls": {
+            "spotify": "https://open.spotify.com/playlist/1"
+        }
+    },
+    "z": {
+        "name": "z",
+        "external_urls": {
+            "spotify": "https://open.spotify.com/playlist/2"
         }
     }
-};
+ };
 
 const data2 = [
     {
@@ -74,7 +68,7 @@ const data2HierarchyExpected =
     }
 }
 
-describe('Format playlist data for display', function () {
+describe('Sort', function () {
     describe("Create correct object hierarchy", function () {
          it('groups hierarchical path segments when groups present', function () {
             var data1HierarchyResult = formatter._createHierarchicalMap(data1);

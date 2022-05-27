@@ -5,7 +5,7 @@ var AuthenticationRequest = require('./authentication-request'),
   HttpManager = require('./http-manager');
 
 // var SpotifyWebApi = require('spotify-web-api-node');
-const access_token = 'BQBVyK8ALhxNG3pnrh39U-tvs5cnFjA2g9nlNjCPCg7315CB2hTVemdWIw1VWtO38LTEeDg4FhErtmrIRKWQAT5u-8AflxBliptQGXGV9nhNkJeVrTirdWRARAk5dpWXTexOK_pfU7WO21IB_zZ8qy6bXtUyl-TEg40Hb9BvlJ1DwjawOJIEHFfXO4pY-aSqPNBzam1wj5cyo3eqTlZQoYwjlC3nM4-kXumLWQHdwtBDin7OM1p196vgT-hyODYrYuoVly1vMDjB8-XDMkMJU-mQGpg'
+const access_token = 'BQCVYMxLrWkp-DBIS9DYN1ess3uT89AjL6g5sNG9eYznTdVdUaIb-khWwHVIGiEaCXzsSCjQGv9JTq3QHHi-KzVkQ58PQuQivntbu0fxP20g-sEyi6jfQBKgiDIuESYJXywZizdxKE2YFcaKs1BUBlP5zOTFcqXous99oG7lC-rTOcMlj7n_prHnaaJC0JAZvdOjfPA_j7V-jMCOFcP91erEfSazSCX1d7yN2riWZ19JRhLb2eNgau9c-43u6m13DrJRhKWcVzebkvt4sR9-vQrrgsY'
 
 let spotifyApi = null;
 // function getApi() {

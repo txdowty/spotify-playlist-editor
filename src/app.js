@@ -1,13 +1,14 @@
 const express = require('express');
+const { access } = require('fs');
 var path = require('path');
+const {spotifyWebApi} = require('./services/spotify_web_api.js');
 
 const app = express();
 
+
 // routes
-const authRoutes = require('./api/routes/auth');
-const playlistsRoutes = require('./api/routes/playlists');
-// module.exports = app;app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+const authRoutes = require('./api/routes/auth.js');
+const playlistsRoutes = require('./api/routes/playlists.js');
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -24,8 +25,19 @@ app.use((req, res, next) => {
 
 // Routes
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '/views/index.html'));
+  if (!spotifyWebApi.getAccessToken()) {
+    res.redirect('auth/login');
+  }
+  else {
+    res.sendFile(path.join(__dirname, '/views/index.html'));
+  }
 });
+
+
+// app.get('/main', function (req, res) {
+  
+//   res.sendFile(path.join(__dirname, '/views/index.html'));
+// });
 
 app.use('/auth', authRoutes);
 app.use('/playlists', playlistsRoutes);

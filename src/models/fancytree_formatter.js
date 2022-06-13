@@ -52,7 +52,8 @@ function displayFormatFromRawPlaylists(playlists, doSort = true) {
             if (value.external_urls) {
                 let title = _getFormattedTitle(key, value);
                 let tooltip = _getTooltip(key, value);
-                child_nodes.push({ title: title, tooltip: tooltip, sortable_title: key, playlist: value });
+                // let icon = _getIcon(key, value);
+                child_nodes.push({ title: title, sortable_title: key, tooltip: tooltip, playlist: value });
             }
             else {
                 // Create a folder
@@ -79,14 +80,18 @@ function displayFormatFromRawPlaylists(playlists, doSort = true) {
         _sortArray(displayArray, 'sortable_title');
     }
     return displayArray;
-    // return x.sort((a,b) => (a.sortable_title > b.sortable_title) ? 1 : ((b.sortable_title > a.sortable_title) ? -1 : 0));
 };
 
+function getIcon(event, data) {
+    // return data.images[0].url;
+    return 'https://mosaic.scdn.co/640/ab67616d0000b27312171916079468f70ad95523ab67616d0000b273411cacfc3518a9f2c4a670f6ab67616d0000b2736a1409bdd9347d8b7112821fab67616d0000b273bb5365591e6ff41725a7e733';
+}
 
 module.exports = {
     titlesSorted: titlesSorted,
     // formatPlaylists: formatPlaylists,
     // private but testable
     _createHierarchicalMap: _createHierarchicalMap,
-    displayFormatFromRawPlaylists, displayFormatFromRawPlaylists
+    displayFormatFromRawPlaylists, displayFormatFromRawPlaylists,
+    getIcon: getIcon
 };

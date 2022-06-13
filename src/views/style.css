@@ -10,37 +10,47 @@ body {
 */
 
 /* Style tree container */
-div#tree {
-	padding-bottom: 20px;
-	border: 5px solid #ccc;
-	border-radius: 3px;
-	max-height: 600px;
-	overflow: auto;
-    height: 300px;
-}
+/* #xtree {
+	position: absolute;
+	height: 300px;
+	width: 95%;
+	padding: 5px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin-right: 16px;
+	background-color: skyblue;
+	border: 10px;
+} */
 
-#tree .fancytree-container {
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	max-height: 600px;
+ul.fancytree-container {
+	width: 200px;
+	height: 100px;
 	overflow: auto;
-}
+	position: relative;
+  }
+  
+/* ul.ui-fancytree {
+	height: 300px;
+	width: 100%;
+	overflow: auto;
+	background-color: skyblue;
+} */
 
-#searchResultTree  td > div.truncate {
+/* #searchResultTree  td > div.truncate {
 	max-height: 3em;
-	/*max-width: 100%;*/
+	/*max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/*white-space: nowrap;*/
-	/*color: red;*/
-}
+	/*white-space: nowrap;
+	/*color: red;
+} */
 
 /* Set to different containers while requests are pending:; */
-.busy {
-	color: gray;
+/*.busy {
+	 color: gray;
 	background-image: url("busy_bg_fff.png");
 	background-repeat: repeat;
-}
+} */
 
 /* Improve connection lines for bootstrap pane tabs */
 div.panel[role=tabpanel] {

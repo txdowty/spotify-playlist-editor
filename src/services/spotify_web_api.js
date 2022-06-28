@@ -13,7 +13,26 @@ const spotifyWebApi = new SpotifyWebApi({
   redirectUri: redirectUri
 });
 
-module.exports = {
-  spotifyWebApi: spotifyWebApi
+// function getCurrentUserInfo() {
+//   return spotifyWebApi.getMe();
+// }
 
+// function getUserInfo(userId) {
+//   return spotifyWebApi.getUser(userId);
+// }
+
+// async function getUserInfo(userId) {
+//   var data;
+//   if (!userId) {
+//     data = await spotifyWebApi.getMe();
+//   }
+//   else {
+//     data = await spotifyWebApi.getUser(userId);
+//   }
+//   return data.body
+// }
+module.exports = {
+  spotifyWebApi: spotifyWebApi,
+  // getCurrentUserInfo: getCurrentUserInfo,
+  // getUserInfo: getUserInfo
 };

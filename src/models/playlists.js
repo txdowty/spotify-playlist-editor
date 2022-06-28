@@ -1,17 +1,23 @@
 const { spotifyWebApi } = require('../services/spotify_web_api.js')
-
+const spotifyApi  = require('../services/spotify_web_api.js') 
 const playlistsClass = require('./playlists_class.js');
 
-function fetchGroupFromServer(offset) {
-    return spotifyWebApi.getUserPlaylists({ limit: 50, offset: offset });
+function fetchGroupFromServer(user, offset) {
+    return spotifyWebApi.getUserPlaylists(user, { limit: 50, offset: offset });
 };
+
+function getCurrentUserInfo() {
+    return spotifyWebApi.getMe();
+}
 
 async function getPlaylists() {
     let playlists = new playlistsClass.Playlists();
-    var res = await fetchGroupFromServer(0);
+    var res = await spotifyApi.getCurrentUserInfo();
+    const userId = res.body.id;
+    res = await fetchGroupFromServer(userId, 0);
     playlists.append(res.body.items);
     while (res.body.next) {
-        res = await fetchGroupFromServer(playlists.size);
+        res = await fetchGroupFromServer(userId, playlists.size);
         playlists.append(res.body.items)
     }
     return playlists._playlists;

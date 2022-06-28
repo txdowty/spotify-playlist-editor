@@ -53,7 +53,7 @@ function displayFormatFromRawPlaylists(playlists, doSort = true) {
                 let title = _getFormattedTitle(key, value);
                 let tooltip = _getTooltip(key, value);
                 // let icon = _getIcon(key, value);
-                child_nodes.push({ title: title, sortable_title: key, tooltip: tooltip, playlist: value });
+                child_nodes.push({ title: title, sortable_title: key, tooltip: tooltip, iconTooltip: 'icon tooltip', playlist: value });
             }
             else {
                 // Create a folder

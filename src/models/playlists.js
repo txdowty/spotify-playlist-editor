@@ -6,13 +6,9 @@ function fetchGroupFromServer(user, offset) {
     return spotifyWebApi.getUserPlaylists(user, { limit: 50, offset: offset });
 };
 
-function getCurrentUserInfo() {
-    return spotifyWebApi.getMe();
-}
-
 async function getPlaylists() {
     let playlists = new playlistsClass.Playlists();
-    var res = await spotifyApi.getCurrentUserInfo();
+    var res = await spotifyWebApi.getMe();
     const userId = res.body.id;
     res = await fetchGroupFromServer(userId, 0);
     playlists.append(res.body.items);

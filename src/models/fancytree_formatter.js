@@ -1,5 +1,6 @@
 'use strict';
 
+
 function titlesSorted(playlists) {
     return playlists.map(function (item) {
         return { title: item.name };
@@ -27,10 +28,30 @@ function _sortArray(array, property_name) {
     return array;
 }
 
+// const htmlDecode = (input) => {
+//     const doc = new window.DOMParser().parseFromString(input, "text/html");
+//     return doc.documentElement.textContent;
+// }
+
+function _getHierarchicalSegments(playlist_obj) {
+    const regex = /\{\{(.*)\}\}/gm;  
+    const description = playlist_obj.description;
+    let m = regex.exec(description);
+    if (!m) {
+        return [playlist_obj.name];
+    }
+    // console.log(m[1]);
+    let segments = m[1].split('&#x2F;');
+    segments.push(playlist_obj.name);
+    return segments;
+}
+
 function _createHierarchicalMap(playlists) {
     const map = new Object();
     playlists.reduce((_map, obj) => {
-        var segments = obj.name.split('/');
+        var segments = _getHierarchicalSegments(obj);
+        // var segments = obj.name.split('/');
+        console.log(segments);
         var parent = map;
         for (let i = 0; i < segments.length - 1; i++) {
             const segment_name = segments[i]

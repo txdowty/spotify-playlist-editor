@@ -11,5 +11,5 @@ You must provide a file named `.env` in the project root with fhe following cont
 PORT=8888
 CLIENT_ID='your-client-id'
 CLIENT_SECRET='your-client-secret'
-REDIRECT_URI='http://localhost:8888/auth/callback'
+REDIRECT_URI='https://8888-txdowty-spotifyplaylist-bkgcwiwztky.ws-us60.gitpod.io/auth/callback'
 ```
